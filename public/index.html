@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Feed RSS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .feed-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .feed-item h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .feed-item p {
+            margin: 5px 0;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Consulta de Feed RSS</h1>
+    <button id="update-feed">Atualizar Feed</button>
+    <div id="feed-container"></div>
+
+    <script>
+        // Função para buscar e exibir o feed
+        const fetchFeed = async () => {
+            const response = await fetch('/get-feed');
+            const data = await response.json();
+            const container = document.getElementById('feed-container');
+            container.innerHTML = '';
+
+            if (data.items) {
+                data.items.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'feed-item';
+                    itemDiv.innerHTML = `
+                        <h2>${item.title}</h2>
+                        <p>${item.pubDate}</p>
+                        <p>${item.contentSnippet || item.description}</p>
+                        <a href="${item.link}" target="_blank">Leia mais</a>
+                    `;
+                    container.appendChild(itemDiv);
+                });
+            } else {
+                container.innerHTML = '<p>Nenhum feed disponível.</p>';
+            }
+        };
+
+        // Atualizar o feed ao clicar no botão
+        document.getElementById('update-feed').addEventListener('click', async () => {
+            await fetch('/update-feed');
+            await fetchFeed();
+        });
+
+        // Carregar o feed ao abrir a página
+        fetchFeed();
+    </script>
+</body>
+</html>
