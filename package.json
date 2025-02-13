@@ -1,6 +1,17 @@
 {
+  "name": "nova-pasta",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
-    "express": "^4.21.2",
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "yarn": "^1.22.22"
   }
 }
